@@ -6,6 +6,8 @@ const sequelize = require("./util/database");
 const cors = require("cors");
 const User = require("./models/userModel");
 const Expense = require("./models/expenseModel");
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 
 const app = express();
 app.use(express.json());
@@ -15,10 +17,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api/v1/expense", expenseRouter);
 app.use("/api/v1/users", userRouter);
 
+User.hasMany(Expense);
+Expense.belongsTo(User);
+
 sequelize
   .sync()
   .then(() => {
-    const port = 3000;
+    const port = process.env.PORT;
     app.listen(port, () => {
       console.log(`App running on ${port}`);
     });

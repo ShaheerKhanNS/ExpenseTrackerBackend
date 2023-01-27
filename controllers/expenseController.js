@@ -1,7 +1,11 @@
 const Expense = require("../models/expenseModel");
 
 exports.getAllExpenses = async (req, res) => {
-  const expenses = await Expense.findAll();
+  const expenses = await Expense.findAll({
+    where: {
+      userId: req.user.id,
+    },
+  });
 
   res.status(200).json({
     status: "success",
@@ -13,11 +17,13 @@ exports.getAllExpenses = async (req, res) => {
 
 exports.createExpense = async (req, res) => {
   try {
+    const userId = req.user.id;
     const { price, description, category } = req.body;
     await Expense.create({
       price,
       description,
       category,
+      userId,
     });
     res.status(201).json({ message: "Successfully created Expense" });
   } catch (err) {
