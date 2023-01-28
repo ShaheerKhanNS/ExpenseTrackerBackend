@@ -2,10 +2,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const expenseRouter = require("./routes/expenseRoutes");
 const userRouter = require("./routes/userRoutes");
+const premiumRouter = require("./routes/premiumRoutes");
 const sequelize = require("./util/database");
 const cors = require("cors");
 const User = require("./models/userModel");
 const Expense = require("./models/expenseModel");
+const Order = require("./models/orderModel");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 
@@ -16,9 +18,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/api/v1/expense", expenseRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/purchase", premiumRouter);
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
+
+User.hasMany(Order);
+Order.belongsTo(User);
 
 sequelize
   .sync()
