@@ -1,33 +1,34 @@
 const Expense = require("../models/expenseModel");
 const User = require("../models/userModel");
+const sequelize = require("../util/database");
 
 exports.showleaderboard = async (req, res) => {
-  const user = await User.findAll();
-  const expenses = await Expense.findAll();
+  try {
+    const userAggregatedExpense = await User.findAll({
+      attributes: [
+        "id",
+        "name",
+        [sequelize.fn("sum", sequelize.col("expenses.price")), "total_cost"],
+      ],
+      include: [
+        {
+          model: Expense,
+          attributes: [],
+        },
+      ],
+      group: ["id"],
 
-  const aggregatedExpense = {};
-
-  expenses.forEach((expense) => {
-    if (aggregatedExpense[expense.userId]) {
-      aggregatedExpense[expense.userId] += expense.price;
-    }
-
-    aggregatedExpense[expense.userId] = expense.price;
-  });
-
-  const leaderBoard = [];
-
-  user.forEach((user) => {
-    leaderBoard.push({
-      name: user.name,
-      total_cost: aggregatedExpense[user.id] || 0,
+      order: [["total_cost", "DESC"]],
     });
-  });
 
-  const sorted = leaderBoard.sort((a, b) => b.total_cost - a.total_cost);
-
-  res.status(200).json({
-    status: "success",
-    data: sorted,
-  });
+    res.status(201).json({
+      status: "sucess",
+      userAggregatedExpense,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
 };
