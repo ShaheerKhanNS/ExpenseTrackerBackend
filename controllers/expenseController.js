@@ -1,4 +1,5 @@
 const Expense = require("../models/expenseModel");
+const User = require("../models/userModel");
 
 exports.getAllExpenses = async (req, res) => {
   const expenses = await Expense.findAll({
@@ -7,10 +8,13 @@ exports.getAllExpenses = async (req, res) => {
     },
   });
 
+  const user = await User.findByPk(req.user.id);
+
   res.status(200).json({
     status: "success",
     data: {
       expenses,
+      premium: user.isPremium,
     },
   });
 };
