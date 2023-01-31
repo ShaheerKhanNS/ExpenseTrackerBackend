@@ -1,3 +1,4 @@
+const { DATEONLY } = require("sequelize");
 const Sequelize = require("sequelize");
 const sequelize = require("../util/database");
 
@@ -7,6 +8,11 @@ const Expense = sequelize.define("expenses", {
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
+  },
+  date: {
+    allowNull: false,
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.fn("now"),
   },
   price: {
     type: Sequelize.DOUBLE,

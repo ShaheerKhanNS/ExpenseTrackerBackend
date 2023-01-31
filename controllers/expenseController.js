@@ -1,6 +1,6 @@
 const Expense = require("../models/expenseModel");
 const User = require("../models/userModel");
-
+const S3service = require("../services/s3Service");
 exports.getAllExpenses = async (req, res) => {
   const expenses = await Expense.findAll({
     where: {
@@ -35,12 +35,6 @@ exports.createExpense = async (req, res) => {
   }
 };
 
-exports.getExpense = (req, res) => {
-  res.send("get one expense");
-};
-exports.updateExpense = (req, res) => {
-  res.send("update one expense");
-};
 exports.deleteExpense = async (req, res) => {
   const id = req.params.id;
   const expense = await Expense.findByPk(id);
@@ -49,4 +43,30 @@ exports.deleteExpense = async (req, res) => {
   res.status(202).json({
     status: "success",
   });
+};
+
+exports.downloadExpense = async (req, res) => {
+  try {
+    // Getting id of the current logged in user,by using a middlewarefunction.
+    const id = req.user.dataValues.id;
+    // Getting all the expenses for the given userId
+    const expenses = await Expense.findAll({
+      where: {
+        userId: id,
+      },
+    });
+
+    const filename = `Expense${id}/${new Date()}.txt`;
+    const data = JSON.stringify(expenses);
+    const fileUrl = await S3service.uploadToS3(data, filename);
+    res.status(200).json({
+      status: "success",
+      fileUrl,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
 };

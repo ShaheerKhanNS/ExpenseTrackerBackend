@@ -3,13 +3,13 @@ const sequelize = require("../util/database");
 
 const forgotPassword = sequelize.define("ForgotPasswordRequests", {
   id: {
-    type: Sequelize.STRING,
+    type: Sequelize.UUID,
     allowNull: false,
     primaryKey: true,
   },
 
   userId: {
-    type: Sequelize.UUID,
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
   isActive: {

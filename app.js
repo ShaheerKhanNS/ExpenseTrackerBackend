@@ -1,4 +1,7 @@
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 const express = require("express");
+
 const bodyParser = require("body-parser");
 const expenseRouter = require("./routes/expenseRoutes");
 const userRouter = require("./routes/userRoutes");
@@ -11,8 +14,6 @@ const User = require("./models/userModel");
 const Expense = require("./models/expenseModel");
 const Order = require("./models/orderModel");
 const forgotPassword = require("./models/forgotPasswordModel");
-const dotenv = require("dotenv");
-dotenv.config({ path: "./config.env" });
 
 const app = express();
 app.use(express.json());
