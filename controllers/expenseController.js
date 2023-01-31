@@ -1,6 +1,8 @@
 const Expense = require("../models/expenseModel");
 const User = require("../models/userModel");
 const S3service = require("../services/s3Service");
+const Download = require("../models/downloadModel");
+
 exports.getAllExpenses = async (req, res) => {
   const expenses = await Expense.findAll({
     where: {
@@ -15,6 +17,7 @@ exports.getAllExpenses = async (req, res) => {
     data: {
       expenses,
       premium: user.isPremium,
+      name: user.name,
     },
   });
 };
@@ -59,11 +62,18 @@ exports.downloadExpense = async (req, res) => {
     const filename = `Expense${id}/${new Date()}.txt`;
     const data = JSON.stringify(expenses);
     const fileUrl = await S3service.uploadToS3(data, filename);
+
+    await Download.create({
+      fileUrl: fileUrl,
+      userId: id,
+    });
+
     res.status(200).json({
       status: "success",
       fileUrl,
     });
   } catch (err) {
+    console.log(JSON.stringify(err));
     res.status(500).json({
       status: "fail",
       message: err.message,
