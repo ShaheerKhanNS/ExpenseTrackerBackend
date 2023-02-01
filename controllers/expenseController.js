@@ -4,7 +4,19 @@ const S3service = require("../services/s3Service");
 const Download = require("../models/downloadModel");
 
 exports.getAllExpenses = async (req, res) => {
+  const page = +req.query.page || 1;
+  const ITEMS_PER_PAGE = +req.query.size || 2;
+  // For implementing how many buttons we need to render we are taking the total number of entries.
+  let totalItems = await Expense.count({
+    where: {
+      userId: req.user.id,
+    },
+  });
+
+  //  For pagination feature
   const expenses = await Expense.findAll({
+    offset: (page - 1) * ITEMS_PER_PAGE,
+    limit: ITEMS_PER_PAGE,
     where: {
       userId: req.user.id,
     },
@@ -17,7 +29,17 @@ exports.getAllExpenses = async (req, res) => {
     data: {
       expenses,
       premium: user.isPremium,
+      // For displaying the name of currently logged in user
       name: user.name,
+      // For pagination purpose
+      page: {
+        currentPage: page,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        nextPage: page + 1,
+        hasPreviousPage: page > 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
+      },
     },
   });
 };
