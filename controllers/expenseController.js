@@ -61,13 +61,26 @@ exports.createExpense = async (req, res) => {
 };
 
 exports.deleteExpense = async (req, res) => {
-  const id = req.params.id;
-  const expense = await Expense.findByPk(id);
-  await expense.destroy();
+  try {
+    // For security purpose we only allow the user who created the expense to delete, this is done by identifying the user using token and authorizing him
 
-  res.status(202).json({
-    status: "success",
-  });
+    const id = req.params.id;
+    await Expense.destroy({
+      where: {
+        id: id,
+        userId: req.user.id,
+      },
+    });
+
+    res.status(202).json({
+      status: "success",
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      message: "Unauthorized",
+    });
+  }
 };
 
 exports.downloadExpense = async (req, res) => {
