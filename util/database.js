@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(
-  "expense-tracker-complete",
-  "root",
-  "shaheerkhanns@NODE",
+  process.env.DATABASE_TABLE,
+  process.env.DATABASE_ACCOUNT,
+  process.env.DATABASE_PASSWORD,
   {
     dialect: "mysql",
     host: "localhost",

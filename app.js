@@ -1,5 +1,6 @@
 //Required npm modules
 const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
@@ -25,8 +26,6 @@ const Expense = require("./models/expenseModel");
 const Order = require("./models/orderModel");
 const Download = require("./models/downloadModel");
 const forgotPassword = require("./models/forgotPasswordModel");
-
-dotenv.config({ path: "./config.env" });
 
 const accessStreamLog = fs.createWriteStream(
   path.join(__dirname, "access.log"),
