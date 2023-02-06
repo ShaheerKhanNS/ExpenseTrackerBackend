@@ -47,7 +47,18 @@ exports.getAllExpenses = async (req, res) => {
 exports.createExpense = async (req, res) => {
   try {
     const userId = req.user.id;
+    const user = await User.findAll({
+      where: {
+        id: userId,
+      },
+    });
     const { price, description, category } = req.body;
+
+    const totalexpense = user[0].totalexpense + Number(price);
+    await user[0].update({
+      totalexpense: totalexpense,
+    });
+
     await Expense.create({
       price,
       description,
