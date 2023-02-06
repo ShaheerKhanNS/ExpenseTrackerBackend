@@ -1,6 +1,7 @@
 //Required npm modules
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
+dotenv.config({ path: "./aws.env" });
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");

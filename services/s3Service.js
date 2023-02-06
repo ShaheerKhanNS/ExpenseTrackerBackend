@@ -1,11 +1,11 @@
 const AWS = require("aws-sdk");
 
-console.log(
-  "S3===>",
-  process.env.BUCKET_NAME,
-  process.env.AWS_ACCESS_KEY,
-  process.env.AWS_SECRET_KEY
-);
+// console.log(
+//   "S3===>",
+//   process.env.BUCKET_NAME,
+//   process.env.AWS_ACCESS_KEY,
+//   process.env.AWS_SECRET_KEY
+// );
 
 exports.uploadToS3 = async (data, filename) => {
   const bucketName = process.env.BUCKET_NAME;
