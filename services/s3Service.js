@@ -8,9 +8,14 @@ const AWS = require("aws-sdk");
 // );
 
 exports.uploadToS3 = async (data, filename) => {
-  const bucketName = process.env.BUCKET_NAME;
-  const iamAccessKey = process.env.AWS_ACCESS_KEY;
-  const iamSecretKey = process.env.AWS_SECRET_KEY;
+  // Need to fix this bug tried a lot researched but didnt came to conclusion so waiting for senior developers advice
+  // const bucketName = process.env.BUCKET_NAME;
+  // const iamAccessKey = process.env.AWS_ACCESS_KEY;
+  // const iamSecretKey = process.env.AWS_SECRET_KEY;
+
+  const bucketName = "expensetrackerbackend";
+  const iamAccessKey = "AKIA6PLPWQRGBURO7P6J";
+  const iamSecretKey = "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";
 
   const s3Bucket = new AWS.S3({
     accessKeyId: iamAccessKey,
