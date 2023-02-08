@@ -25,7 +25,7 @@ btnSignup.addEventListener("click", async () => {
         },
       });
       clearField();
-      window.location.replace(`${URL}/html/login.html`);
+      window.location.replace(`${URL}/login/login.html`);
     }
   } catch (err) {
     document.body.innerHTML += `<div class="error">${err.message}</div>`;
