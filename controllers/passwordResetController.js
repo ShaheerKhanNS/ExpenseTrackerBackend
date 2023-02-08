@@ -3,8 +3,8 @@ const Sib = require("sib-api-v3-sdk");
 const forgotPasswrdMdl = require("../models/forgotPasswordModel");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
-// const URL = `http://35.78.245.211`;
-const URL = `http://localhost`;
+const URL = `http://35.78.245.211`;
+// const URL = `http://localhost`;
 exports.resetPasswordLink = async (req, res) => {
   try {
     const { email } = req.body;
@@ -155,7 +155,7 @@ btnSubmit.addEventListener("click", async (e) => {
         }
       });
        alert(response.data.message);
-      window.location.replace("http://localhost:3000/login/login.html");
+      window.location.replace("http://35.78.245.211:3000/login/login.html");
     }
     
   }catch(err){
@@ -167,7 +167,7 @@ btnSubmit.addEventListener("click", async (e) => {
 </html>
 `);
   } else if (request[0].dataValues.isActive === false) {
-    res.redirect("http://localhost:3000/error/error.html");
+    res.redirect("http://35.78.245.211:3000/error/error.html");
   }
 };
 
