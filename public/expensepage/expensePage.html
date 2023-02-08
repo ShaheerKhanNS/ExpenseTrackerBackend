@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://cdn-icons-png.flaticon.com/512/5501/5501391.png"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+    <title>Expenses</title>
+    <style>
+      body {
+        background-color: #f4fce3;
+      }
+      .btns {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .invisible {
+        display: none;
+      }
+      .view {
+        display: flex;
+        justify-content: space-evenly;
+      }
+      .error {
+        color: red;
+        display: flex;
+        justify-content: center;
+      }
+      .main {
+        margin-top: 35px;
+        display: flex;
+      }
+      .aside {
+        display: flex;
+        flex-direction: column;
+        margin-right: 30px;
+        justify-content: space-between;
+      }
+      .pagination {
+        display: flex;
+        justify-content: center;
+      }
+      .page-size-preference {
+        width: fit-content;
+        margin-left: 57px;
+      }
+      .select-box {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <div class="container">
+        <form>
+          <label for="price" class="form-label">Price</label>
+          <input type="number" id="price" class="form-control" />
+          <label for="description" class="form-label">Description</label>
+          <input type="text" id="description" class="form-control" />
+          <label for="category" class="form-label">Choose a Category</label>
+          <select id="category" class="form-control">
+            <option value="Movie">Movie</option>
+            <option value="Food">Food</option>
+            <option value="Groccery">Groccery</option>
+            <option value="Missecellaneous">Missecellaneous</option>
+          </select>
+          <br />
+          <div class="btns">
+            <button id="btn" class="btn btn-info">Submit</button>
+            <button id="btn-premium" class="btn btn-outline-success">
+              Unlock premium features
+            </button>
+            <button id="btn-leader" class="btn btn-outline-secondary">
+              ShowLeaderBoard💹
+            </button>
+            <button
+              id="btn-download-expense"
+              class="btn btn-sm btn-outline-info"
+            >
+              Download Expense⬇
+            </button>
+            <button
+              id="btn-leader-fake"
+              class="btn btn-outline-secondary invisible"
+            >
+              ShowLeaderBoard💹
+            </button>
+            <button id="btn-close" class="btn btn-outline-danger invisible">
+              Close
+            </button>
+            <button
+              id="btn-premium-user"
+              class="btn btn-outline-success"
+              disabled
+            >
+              Premium User😎
+            </button>
+          </div>
+        </form>
+        <br />
+        <div id="leader-board-view">
+          <table class="table table-info">
+            <thead>
+              <tr class="table-danger">
+                <th>SlNo:</th>
+                <th>Expense</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="table"></tbody>
+          </table>
+
+          <table id="leader-table" class="table invisible">
+            <thead>
+              <tr class="table-secondary">
+                <th>SlNo:</th>
+                <th>Name</th>
+                <th>TotalExpense</th>
+              </tr>
+            </thead>
+            <tbody id="table-leaderBoard"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <aside class="aside">
+        <button id="name" class="btn btn-outline-dark" disabled>
+          Welcome!Alice
+        </button>
+
+        <button id="logout" class="btn btn-outline-warning">Logout</button>
+        <button id="report" class="btn btn-outline-info">
+          Previous Report🔽
+        </button>
+      </aside>
+    </div>
+    <div class="container pagination"></div>
+    <div class="container page-size-preference">
+      <label for="pageSize">Choose Number of Pages:</label>
+      <div class="select-box">
+        <select class="form-select form-select-sm" name="pageSize" id="size">
+          <option value="2">2</option>
+          <option value="4">4</option>
+          <option value="8">8</option>
+          <option value="16">16</option>
+        </select>
+        <button class="btn btn-outline-info" id="btn-size">ok</button>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="../js/expensePage.js"></script>
+  </body>
+</html>

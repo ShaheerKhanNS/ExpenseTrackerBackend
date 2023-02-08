@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #c7ecee;
+}
+
+.signup-form {
+  border: 10rem;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  margin-left: 350px;
+}
+
+.btn-signup {
+  margin-top: 20px;
+  width: 15%;
+}
+
+.user {
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+  margin-left: 265px;
+}
+.error {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+  margin-left: 265px;
+  color: red;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+h3 {
+  margin-top: 30px;
+  margin-left: 569px;
+}
+
+.btn-place {
+  padding-top: 30px;
+  margin-left: 485px;
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.span-signup {
+  margin-top: 30px;
+}
+
+.signup-link {
+  display: flex;
+  align-items: center;
+}
+
+.forgot-password {
+  margin-right: 47px;
+  display: flex;
+  align-items: center;
+}

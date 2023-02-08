@@ -1,7 +1,7 @@
 //Required npm modules
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
-dotenv.config({ path: "./aws.env" });
+// dotenv.config({ path: "./aws.env" });
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
@@ -34,9 +34,10 @@ const accessStreamLog = fs.createWriteStream(
 );
 
 // Essential middleware configarations
-app.use(helmet());
-app.use(express.json());
 app.use(cors());
+app.use(helmet());
+
+app.use(express.json());
 app.use(morgan("combined", { stream: accessStreamLog }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -45,6 +46,15 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/purchase", purchaseRouter);
 app.use("/api/v1/premium", premiumRouter);
 app.use("/api/v1/password", passwordResetRouter);
+app.use((req, res) => {
+  res
+    .setHeader(
+      "Content-Security-Policy",
+      "script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js https://checkout.razorpay.com/v1/checkout.js",
+      "img-src  https://cdn-icons-png.flaticon.com/512/5501/5501391.png"
+    )
+    .sendFile(path.join(__dirname, `public${req.url}`));
+});
 
 // Table Relationships
 User.hasMany(Expense);

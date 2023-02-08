@@ -3,7 +3,8 @@ const Sib = require("sib-api-v3-sdk");
 const forgotPasswrdMdl = require("../models/forgotPasswordModel");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
-
+// const URL = `http://35.78.245.211`;
+const URL = `http://localhost`;
 exports.resetPasswordLink = async (req, res) => {
   try {
     const { email } = req.body;
@@ -55,7 +56,7 @@ exports.resetPasswordLink = async (req, res) => {
           subject: "Password reset link",
           textContent: `Please use this link for changing your password `,
           htmlContent: `<h3>Reset Your Password</h3>
-                      <a href="http://localhost:3000/api/v1/password/resetPassword/${id}">Click here </a>                     `,
+                      <a href="${URL}:3000/api/v1/password/resetPassword/${id}">Click here </a>                     `,
         })
         .then(() => {
           res.status(202).json({
@@ -148,13 +149,13 @@ btnSubmit.addEventListener("click", async (e) => {
     if (password) {
    const response =   await axios({
         method: "POST",
-        url: "http://localhost:3000/api/v1/password/updatePassword/${uid}",
+        url: "${URL}:3000/api/v1/password/updatePassword/${uid}",
         data:{
           password
         }
       });
        alert(response.data.message);
-      window.location.replace("http://127.0.0.1:8080/html/login.html");
+      window.location.replace("http://localhost:3000/login/login.html");
     }
     
   }catch(err){
@@ -166,7 +167,7 @@ btnSubmit.addEventListener("click", async (e) => {
 </html>
 `);
   } else if (request[0].dataValues.isActive === false) {
-    res.redirect("http://127.0.0.1:8080/html/error.html");
+    res.redirect("http://localhost:3000/error/error.html");
   }
 };
 
