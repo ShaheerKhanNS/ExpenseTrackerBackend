@@ -35,7 +35,11 @@ const accessStreamLog = fs.createWriteStream(
 
 // Essential middleware configarations
 app.use(cors());
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 app.use(express.json());
 app.use(morgan("combined", { stream: accessStreamLog }));
@@ -50,7 +54,8 @@ app.use((req, res) => {
   res
     .setHeader(
       "Content-Security-Policy",
-      "script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js https://checkout.razorpay.com/v1/checkout.js",
+      "form-action https://35.78.245.211:3000/api/v1/password/resetPassword",
+      "script-src  https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js https://checkout.razorpay.com/v1/checkout.js",
       "img-src  https://cdn-icons-png.flaticon.com/512/5501/5501391.png"
     )
     .sendFile(path.join(__dirname, `public${req.url}`));
