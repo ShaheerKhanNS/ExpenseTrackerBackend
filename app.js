@@ -1,4 +1,5 @@
 //Required npm modules
+const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 // dotenv.config({ path: "./aws.env" });
@@ -22,11 +23,11 @@ const cors = require("cors");
 //Starting app
 const app = express();
 //Models
-const User = require("./models/userModel");
-const Expense = require("./models/expenseModel");
-const Order = require("./models/orderModel");
-const Download = require("./models/downloadModel");
-const forgotPassword = require("./models/forgotPasswordModel");
+// const User = require("./models/userModel");
+// const Expense = require("./models/expenseModel");
+// const Order = require("./models/orderModel");
+// const Download = require("./models/downloadModel");
+// const forgotPassword = require("./models/forgotPasswordModel");
 
 const accessStreamLog = fs.createWriteStream(
   path.join(__dirname, "access.log"),
@@ -61,25 +62,36 @@ app.use((req, res) => {
     .sendFile(path.join(__dirname, `public${req.url}`));
 });
 
-// Table Relationships
-User.hasMany(Expense);
-Expense.belongsTo(User);
+// Table Relationships In SQL
 
-User.hasMany(Order);
-Order.belongsTo(User);
+// User.hasMany(Expense);
+// Expense.belongsTo(User);
 
-User.hasMany(forgotPassword);
-forgotPassword.belongsTo(User);
+// User.hasMany(Order);
+// Order.belongsTo(User);
 
-User.hasMany(Download);
-Download.belongsTo(User);
+// User.hasMany(forgotPassword);
+// forgotPassword.belongsTo(User);
 
-sequelize
-  .sync()
-  .then(() => {
+// User.hasMany(Download);
+// Download.belongsTo(User);
+
+// sequelize
+//   .sync()
+//   .then(() => {
+//     const port = process.env.PORT;
+//     app.listen(port, () => {
+//       console.log(`App running on ${port}`);
+//     });
+//   })
+//   .catch((err) => console.log(err.message));
+
+mongoose
+  .connect(process.env.MONGO_DB_STRING)
+  .then((res) => {
     const port = process.env.PORT;
     app.listen(port, () => {
       console.log(`App running on ${port}`);
     });
   })
-  .catch((err) => console.log(err.message));
+  .catch((err) => console.log(err));

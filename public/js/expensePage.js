@@ -12,8 +12,8 @@ const btnPageSize = document.getElementById("btn-size");
 const premiumUser = document.getElementById("btn-premium-user");
 const loggedUserName = document.getElementById("name");
 
-const URL = `http://35.78.245.211:3000`;
-// const URL = `http://localhost:3000`;
+// const URL = `http://35.78.245.211:3000`;
+const URL = `http://localhost:3000`;
 
 // Token for Authentication
 const token = localStorage.getItem("token");
