@@ -23,7 +23,7 @@ const cors = require("cors");
 //Starting app
 const app = express();
 //Models
-// const User = require("./models/userModel");
+const User = require("./models/userModel");
 // const Expense = require("./models/expenseModel");
 // const Order = require("./models/orderModel");
 // const Download = require("./models/downloadModel");
