@@ -36,6 +36,7 @@ const accessStreamLog = fs.createWriteStream(
 
 // Essential middleware configarations
 app.use(cors());
+
 app.use(
   helmet({
     contentSecurityPolicy: false,

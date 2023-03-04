@@ -1,3 +1,23 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const downloadExpenseSchema = new Schema({
+  fileUrl: {
+    type: String,
+    required: [true, "Download link needs to have a Url"],
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+module.exports = mongoose.model("DownloadedExpense", downloadExpenseSchema);
+
 // const Sequelize = require("sequelize");
 // const sequelize = require("../util/database");
 

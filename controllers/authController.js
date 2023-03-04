@@ -6,17 +6,39 @@ exports.whichUser = async (req, res, next) => {
     const token = req.header("Authorization");
     const decodedToken = jwt.verify(token, process.env.JWT_SECRETKEY);
 
-    // Finding The user
+    console.log("Decoded Token====>", decodedToken);
 
-    const user = await User.findByPk(decodedToken.userId);
-
+    const user = await User.findById(decodedToken.userId);
+    console.log("User==>", user);
     req.user = user;
-
     next();
   } catch (err) {
+    console.log(err);
     res.status(401).json({
       status: "failed",
       message: "Unauthorized",
     });
   }
 };
+
+// Sequelize SQL
+
+// exports.whichUser = async (req, res, next) => {
+//   try {
+//     const token = req.header("Authorization");
+//     const decodedToken = jwt.verify(token, process.env.JWT_SECRETKEY);
+
+//     // Finding The user
+
+//     const user = await User.findByPk(decodedToken.userId);
+
+//     req.user = user;
+
+//     next();
+//   } catch (err) {
+//     res.status(401).json({
+//       status: "failed",
+//       message: "Unauthorized",
+//     });
+//   }
+// };

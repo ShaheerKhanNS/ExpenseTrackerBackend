@@ -247,7 +247,7 @@ const retreiveData = async (page) => {
   }
 
   expenses.data.data.expenses.forEach((el, i) => {
-    const id = el.id;
+    const id = el._id;
     const formattedPrice = indianCurrency.format(el.price);
     const category = el.category.charAt(0).toUpperCase() + el.category.slice(1);
     const description =
