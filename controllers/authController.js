@@ -6,10 +6,8 @@ exports.whichUser = async (req, res, next) => {
     const token = req.header("Authorization");
     const decodedToken = jwt.verify(token, process.env.JWT_SECRETKEY);
 
-    console.log("Decoded Token====>", decodedToken);
-
     const user = await User.findById(decodedToken.userId);
-    console.log("User==>", user);
+
     req.user = user;
     next();
   } catch (err) {
