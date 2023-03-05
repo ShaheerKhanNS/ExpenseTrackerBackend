@@ -57,7 +57,10 @@ btnSubmit.addEventListener("click", async (e) => {
       await axios({
         method: "POST",
         url: `${URL}/api/v1/expense/addexpense`,
-        headers: { Authorization: token },
+        headers: {
+          Authorization: token,
+          "Cross-Origin-Resource-Policy": "cross-origin",
+        },
 
         data: {
           price,
@@ -84,6 +87,8 @@ btnPremium.addEventListener("click", async (e) => {
     url: `${URL}/api/v1/purchase/premiummembership`,
     headers: { Authorization: token },
   });
+
+  console.log(response);
 
   const options = {
     key: response.data.key_id,
@@ -117,7 +122,10 @@ btnPremium.addEventListener("click", async (e) => {
         order_id: options.order_id,
         payment_id: response.razorpay_payment_id,
       },
-      headers: { Authorization: token },
+      headers: {
+        Authorization: token,
+        "Cross-Origin-Resource-Policy": "cross-origin",
+      },
     });
     alert(error.error.description);
   });
@@ -220,7 +228,10 @@ const retreiveData = async (page) => {
   const expenses = await axios({
     method: "GET",
     url: `${URL}/api/v1/expense?page=${page}&size=${size}`,
-    headers: { Authorization: token },
+    headers: {
+      Authorization: token,
+      "Cross-Origin-Resource-Policy": "cross-origin",
+    },
   });
 
   loggedUserName.textContent = `Welcome ${
@@ -285,10 +296,8 @@ btnLeader.addEventListener("click", async (e) => {
     url: `${URL}/api/v1/premium/showleaderboard`,
   });
 
-  // console.log(response);
-
-  response.data.userAggregatedExpense.forEach((data, i) => {
-    const formattedPrice = indianCurrency.format(data.totalexpense);
+  response.data.users.forEach((data, i) => {
+    const formattedPrice = indianCurrency.format(data.totalExpense);
     const name = data.name;
     renderLeaderBoard(i + 1, name, formattedPrice);
   });

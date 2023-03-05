@@ -18,12 +18,13 @@ const premiumRouter = require("./routes/premiumRoutes");
 const passwordResetRouter = require("./routes/passwordResetRoutes");
 
 //Database and HTTPS middleware
-const sequelize = require("./util/database");
+// const sequelize = require("./util/database");
 const cors = require("cors");
+
 //Starting app
 const app = express();
 //Models
-const User = require("./models/userModel");
+// const User = require("./models/userModel");
 // const Expense = require("./models/expenseModel");
 // const Order = require("./models/orderModel");
 // const Download = require("./models/downloadModel");
@@ -37,11 +38,9 @@ const accessStreamLog = fs.createWriteStream(
 // Essential middleware configarations
 app.use(cors());
 
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-  })
-);
+// Set COEP and CORP headers
+
+app.use(helmet());
 
 app.use(express.json());
 app.use(morgan("combined", { stream: accessStreamLog }));
@@ -54,9 +53,10 @@ app.use("/api/v1/premium", premiumRouter);
 app.use("/api/v1/password", passwordResetRouter);
 app.use((req, res) => {
   res
+
     .setHeader(
       "Content-Security-Policy",
-      "form-action https://35.78.245.211:3000/api/v1/password/resetPassword",
+      "form-action https://127.0.0.1:3000/api/v1/password/resetPassword",
       "script-src  https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js https://checkout.razorpay.com/v1/checkout.js",
       "img-src  https://cdn-icons-png.flaticon.com/512/5501/5501391.png"
     )

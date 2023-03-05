@@ -3,38 +3,84 @@ const Order = require("../models/orderModel");
 
 exports.getPremiumMemebership = async (req, res, next) => {
   try {
+    console.log("eneted");
     const rzp = new Razorpay({
       key_id: process.env.RAZOR_PAY_KEY_ID,
       key_secret: process.env.RAZOR_PAY_KEY_SECRET,
     });
-    const amount = 10000;
-
+    const amount = 1000;
     rzp.orders.create(
       {
         amount,
         currency: "INR",
       },
-      (err, order) => {
-        if (err) {
-          throw new Error(JSON.stringify(err));
-        }
-        req.user
-          .createOrder({ orderId: order.id, status: "PENDING" })
-          .then(() => {
-            return res.status(201).json({
-              order,
-              key_id: rzp.key_id,
-            });
-          })
-          .catch((err) => {
+      async (err, order) => {
+        try {
+          if (err) {
+            console.log("ERRor in RZPay===>", err);
             throw new Error(err);
+          }
+
+          const orderId = order.id;
+          console.log("Order id", orderId);
+          const orderFile = new Order({
+            orderId,
+            status: "PENDING",
+            userId: req.user.id,
           });
+
+          await orderFile.save();
+
+          return res.status(201).json({
+            order,
+            key_id: rzp.key_id,
+          });
+        } catch (err) {
+          throw new Error(err);
+        }
       }
     );
   } catch (err) {
-    res.status(403).json({ message: "Something went wrong", error: err });
+    res
+      .status(403)
+      .json({ message: "Something went wrong on razor pay side", err });
   }
 };
+
+// exports.getPremiumMemebership = async (req, res, next) => {
+//   try {
+//     const rzp = new Razorpay({
+//       key_id: process.env.RAZOR_PAY_KEY_ID,
+//       key_secret: process.env.RAZOR_PAY_KEY_SECRET,
+//     });
+//     const amount = 10000;
+
+//     rzp.orders.create(
+//       {
+//         amount,
+//         currency: "INR",
+//       },
+//       (err, order) => {
+//         if (err) {
+//           throw new Error(JSON.stringify(err));
+//         }
+//         req.user
+//           .createOrder({ orderId: order.id, status: "PENDING" })
+//           .then(() => {
+//             return res.status(201).json({
+//               order,
+//               key_id: rzp.key_id,
+//             });
+//           })
+//           .catch((err) => {
+//             throw new Error(err);
+//           });
+//       }
+//     );
+//   } catch (err) {
+//     res.status(403).json({ message: "Something went wrong", error: err });
+//   }
+// };
 
 exports.updateTransactionDetail = async (req, res) => {
   try {
