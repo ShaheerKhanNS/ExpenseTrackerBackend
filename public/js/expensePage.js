@@ -85,7 +85,10 @@ btnPremium.addEventListener("click", async (e) => {
   const response = await axios({
     method: "GET",
     url: `${URL}/api/v1/purchase/premiummembership`,
-    headers: { Authorization: token },
+    headers: {
+      Authorization: token,
+      "Cross-Origin-Embedder-Policy": "unsafe-none",
+    },
   });
 
   console.log(response);
@@ -120,11 +123,10 @@ btnPremium.addEventListener("click", async (e) => {
       data: {
         status: false,
         order_id: options.order_id,
-        payment_id: response.razorpay_payment_id,
+        payment_id: "payment failed",
       },
       headers: {
         Authorization: token,
-        "Cross-Origin-Resource-Policy": "cross-origin",
       },
     });
     alert(error.error.description);

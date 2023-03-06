@@ -5,7 +5,7 @@ dotenv.config({ path: "./config.env" });
 // dotenv.config({ path: "./aws.env" });
 const express = require("express");
 const bodyParser = require("body-parser");
-const helmet = require("helmet");
+
 const morgan = require("morgan");
 const path = require("path");
 const fs = require("fs");
@@ -37,10 +37,6 @@ const accessStreamLog = fs.createWriteStream(
 
 // Essential middleware configarations
 app.use(cors());
-
-// Set COEP and CORP headers
-
-app.use(helmet());
 
 app.use(express.json());
 app.use(morgan("combined", { stream: accessStreamLog }));
