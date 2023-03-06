@@ -38,14 +38,17 @@ exports.getPremiumMemebership = async (req, res, next) => {
               key_id: rzp.key_id,
             });
         } catch (err) {
-          throw new Error(err);
+          res
+            .status(403)
+            .json({
+              message:
+                "Something went wrong on razor pay side Please try after some time",
+            });
         }
       }
     );
   } catch (err) {
-    res
-      .status(403)
-      .json({ message: "Something went wrong on razor pay side", err });
+    console.log(err);
   }
 };
 

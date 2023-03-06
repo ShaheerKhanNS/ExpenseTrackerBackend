@@ -18,6 +18,6 @@ btnReset.addEventListener("click", async (e) => {
     alert(response.data.message);
     document.getElementById("email").value = "";
   } catch (err) {
-    document.body.innerHTML += `<div class='error'>${err.message}</div>`;
+    document.body.innerHTML += `<div class='error'>${err.response.data.message}</div>`;
   }
 });

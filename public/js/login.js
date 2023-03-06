@@ -16,6 +16,7 @@ btnLogin.addEventListener("click", async () => {
           password,
         },
       });
+
       alert(respone.data.message);
       localStorage.setItem("token", respone.data.token);
       window.location.replace(`${URL}/expensepage/expensePage.html`);
@@ -23,6 +24,6 @@ btnLogin.addEventListener("click", async () => {
       alert("Please Provide your registered email and password");
     }
   } catch (err) {
-    document.body.innerHTML += `<div class="error" >${err.message}</div>`;
+    document.body.innerHTML += `<div class="error" >${err.response.data.message}</div>`;
   }
 });

@@ -79,58 +79,62 @@ btnSubmit.addEventListener("click", async (e) => {
 });
 
 btnPremium.addEventListener("click", async (e) => {
-  e.preventDefault();
-  const token = localStorage.getItem("token");
+  try {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
 
-  const response = await axios({
-    method: "GET",
-    url: `${URL}/api/v1/purchase/premiummembership`,
-    headers: {
-      Authorization: token,
-      "Cross-Origin-Embedder-Policy": "unsafe-none",
-    },
-  });
+    const response = await axios({
+      method: "GET",
+      url: `${URL}/api/v1/purchase/premiummembership`,
+      headers: {
+        Authorization: token,
+        // "Cross-Origin-Embedder-Policy": "unsafe-none",
+      },
+    });
 
-  console.log(response);
+    console.log(response);
 
-  const options = {
-    key: response.data.key_id,
-    order_id: response.data.order.id,
-    handler: async (response) => {
+    const options = {
+      key: response.data.key_id,
+      order_id: response.data.order.id,
+      handler: async (response) => {
+        await axios({
+          method: "POST",
+          url: `${URL}/api/v1/purchase/premiummembership`,
+          data: {
+            status: true,
+            order_id: options.order_id,
+            payment_id: response.razorpay_payment_id,
+          },
+          headers: { Authorization: token },
+        });
+        alert("You have a premium account😎");
+        window.location.reload();
+      },
+    };
+
+    const rzp = new Razorpay(options);
+
+    rzp.open();
+
+    rzp.on("payment.failed", async (error) => {
       await axios({
         method: "POST",
         url: `${URL}/api/v1/purchase/premiummembership`,
         data: {
-          status: true,
+          status: false,
           order_id: options.order_id,
-          payment_id: response.razorpay_payment_id,
+          payment_id: "payment failed",
         },
-        headers: { Authorization: token },
+        headers: {
+          Authorization: token,
+        },
       });
-      alert("You have a premium account😎");
-      window.location.reload();
-    },
-  };
-
-  const rzp = new Razorpay(options);
-
-  rzp.open();
-
-  rzp.on("payment.failed", async (error) => {
-    await axios({
-      method: "POST",
-      url: `${URL}/api/v1/purchase/premiummembership`,
-      data: {
-        status: false,
-        order_id: options.order_id,
-        payment_id: "payment failed",
-      },
-      headers: {
-        Authorization: token,
-      },
+      alert(error.error.description);
     });
-    alert(error.error.description);
-  });
+  } catch (err) {
+    alert(err.response.data.message);
+  }
 });
 
 const deleteExpense = async (e) => {

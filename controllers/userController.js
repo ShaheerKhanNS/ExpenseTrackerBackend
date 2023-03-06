@@ -16,8 +16,15 @@ exports.createUser = async (req, res) => {
         email,
         password: hash,
       });
-      await user.save();
-      res.status(201).json({ message: "Successfully create new user" });
+      try {
+        await user.save();
+        res.status(201).json({ message: "Successfully create new user" });
+      } catch (err) {
+        res.status(400).json({
+          status: "fail",
+          message: "User with this mail Id exists please use signin option.",
+        });
+      }
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -47,7 +54,7 @@ exports.login = async (req, res) => {
         } else {
           res.status(401).json({
             status: "fail",
-            message: "Unauthorized",
+            message: "Unauthorized/Please enter the correct Password",
           });
         }
       });
