@@ -1,8 +1,8 @@
 //Required npm modules
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-dotenv.config({ path: "./config.env" });
-// dotenv.config({ path: "./aws.env" });
+// dotenv.config({ path: "./config.env" });
+dotenv.config({ path: "./aws.env" });
 const express = require("express");
 const bodyParser = require("body-parser");
 
@@ -47,12 +47,23 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/purchase", purchaseRouter);
 app.use("/api/v1/premium", premiumRouter);
 app.use("/api/v1/password", passwordResetRouter);
+// app.use((req, res) => {
+//   res
+
+//     .setHeader(
+//       "Content-Security-Policy",
+//       "form-action https://127.0.0.1:3000/api/v1/password/resetPassword",
+//       "script-src  https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js https://checkout.razorpay.com/v1/checkout.js",
+//       "img-src  https://cdn-icons-png.flaticon.com/512/5501/5501391.png"
+//     )
+//     .sendFile(path.join(__dirname, `public${req.url}`));
+// });
 app.use((req, res) => {
   res
 
     .setHeader(
       "Content-Security-Policy",
-      "form-action https://127.0.0.1:3000/api/v1/password/resetPassword",
+      "form-action http://35.78.245.211:3000/api/v1/password/resetPassword",
       "script-src  https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js https://checkout.razorpay.com/v1/checkout.js",
       "img-src  https://cdn-icons-png.flaticon.com/512/5501/5501391.png"
     )

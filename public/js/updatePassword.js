@@ -1,6 +1,6 @@
 const btnSubmit = document.querySelector(".btn");
-// const URL = `http://35.78.245.211:3000`;
-const URL = `http://localhost:3000`;
+const URL = `http://35.78.245.211:3000`;
+// const URL = `http://localhost:3000`;
 btnSubmit.addEventListener("click", async (e) => {
   try {
     e.preventDefault();

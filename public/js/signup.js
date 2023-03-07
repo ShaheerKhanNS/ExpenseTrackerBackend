@@ -1,6 +1,6 @@
 const btnSignup = document.querySelector(".btn-signup");
-// const URL = `http://35.78.245.211:3000`;
-const URL = `http://localhost:3000`;
+const URL = `http://35.78.245.211:3000`;
+// const URL = `http://localhost:3000`;
 const clearField = () => {
   document.getElementById("name").value =
     document.getElementById("email").value =
